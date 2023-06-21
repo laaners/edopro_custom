@@ -1,10 +1,8 @@
 --Blue Mountain
 local s,id=GetID()
 function s.initial_effect(c)
-	c:EnableReviveLimit()
 	--spsummon
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
 	e1:SetRange(LOCATION_HAND)
@@ -20,7 +18,7 @@ function s.initial_effect(c)
 	--Add 1000 ATK and DEF
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,1))
-	e1:SetCategory(CATEGORY_ATKCHANGE)
+	e3:SetCategory(CATEGORY_ATKCHANGE)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_HAND)
 	e3:SetCountLimit(1,id)
@@ -28,6 +26,8 @@ function s.initial_effect(c)
 	e3:SetOperation(s.thop)
 	c:RegisterEffect(e3)
 end
+s.listed_series={0x6a}
+s.listed_names={id}
 function s.cfilter(c,tp)
 	return c:IsFaceup() and c:IsSummonPlayer(tp) and c:IsSetCard(0x6a) and not c:IsCode(id)
 end
@@ -51,12 +51,8 @@ function s.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not c:IsPublic() end
 	Duel.ConfirmCards(1-tp,c)
 end
-function s.thfilter(c)
-	return c:IsSetCard(0x6a)
-end
-function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(s.thfilter,tp,LOCATION_GRAVE,0,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_GRAVE)
+function s.thtg(e,c)
+	return c:IsSetCard(0x6a) 
 end
 function s.thop(e,tp,eg,ep,ev,re,r,rp)
 	local e1=Effect.CreateEffect(e:GetHandler())
