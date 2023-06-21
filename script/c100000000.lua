@@ -1,4 +1,4 @@
---乱蝶幻舞
+--Dance of the Butterspy
 local s,id=GetID()
 function s.initial_effect(c)
 	--Activate
